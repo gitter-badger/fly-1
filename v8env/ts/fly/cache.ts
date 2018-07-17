@@ -7,7 +7,7 @@
 
 export interface CacheSetOptions {
   ttl?: number,
-  surrogates?: string[]
+  tags?: string[]
 }
 
 
@@ -88,9 +88,9 @@ export function expire(key: string, ttl: number) {
   })
 }
 
-export function addSurrogates(key: string, surrogates: string[]) {
-  return new Promise<boolean>(function cacheAddSurrogatesPromise(resolve, reject) {
-    bridge.dispatch("flyCacheAddSurrogates", key, surrogates, function cacheAddSurrogatesCallback(err: string | null, ok?: boolean) {
+export function setTags(key: string, tags: string[]) {
+  return new Promise<boolean>(function cacheSetTagsPromise(resolve, reject) {
+    bridge.dispatch("flyCacheSetTags", key, tags, function cacheSetTagsCallback(err: string | null, ok?: boolean) {
       if (err != null) {
         reject(err)
         return
@@ -100,9 +100,9 @@ export function addSurrogates(key: string, surrogates: string[]) {
   })
 }
 
-export function purgeSurrogates(key: string, surrogates: string[]) {
-  return new Promise<string[]>(function cachePurgeSurrogatesPromise(resolve, reject) {
-    bridge.dispatch("flyCachePurgeSurrogates", key, function cachePurgeSurrogatesCallback(err: string | null, keys?: string) {
+export function purgeTags(key: string, tags: string[]) {
+  return new Promise<string[]>(function cachePurgeTagsPromise(resolve, reject) {
+    bridge.dispatch("flyCachePurgeTags", key, function cachePurgeTagsCallback(err: string | null, keys?: string) {
       if (err != null || !keys) {
         reject(err || "weird result")
         return
@@ -134,7 +134,7 @@ const cache = {
   set,
   expire,
   del,
-  addSurrogates,
-  purgeSurrogates
+  setTags,
+  purgeTags
 }
 export default cache
