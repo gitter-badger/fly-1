@@ -13,6 +13,14 @@ function ushort(x) { return x & 0xFFFF; }
  * @mixes Body
  */
 export class Response extends Body {
+	headers: Headers
+	status: number
+	url: string
+	ok: boolean
+	statusText: string
+	type: string
+	private cookieJar: CookieJar
+
 	constructor(body, init) {
 		if (arguments.length < 1)
 			body = '';
